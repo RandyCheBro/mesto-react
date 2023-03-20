@@ -3,7 +3,6 @@ import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
-import '../index.css';
 import AddPlacePopup from './AddPlacePopup.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
@@ -49,29 +48,26 @@ function App() {
     setSelectedCard(card);
   }
 
+
 useEffect(() => {
+  
   function closeByEscape(evt) {
     if(evt.key === 'Escape') {
       closeAllPopups();
     }
   }
-  if(isOpen) {
-    document.addEventListener('keydown', closeByEscape);
-    return () => {
-      document.removeEventListener('keydown', closeByEscape);
-    }
-  }
-}, [isOpen])
 
-useEffect(() => {
   function closeAllPopupsByOverlay(evt) {
     if(evt.target.classList.contains("popup_is-opened")) {
       closeAllPopups();
     }
   }
+
   if(isOpen) {
+    document.addEventListener('keydown', closeByEscape);
     document.addEventListener('mousedown', closeAllPopupsByOverlay);
     return () => {
+      document.removeEventListener('keydown', closeByEscape);
       document.removeEventListener('mousedown', closeAllPopupsByOverlay);
     }
   }
@@ -79,7 +75,6 @@ useEffect(() => {
 
 
   return (
-    <>
       <div className="page__container">
         <Header />
 
@@ -119,9 +114,7 @@ useEffect(() => {
         />
 
         <PopupWithForm />
-
       </div>
-    </>
   );
 }
 
