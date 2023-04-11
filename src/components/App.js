@@ -107,27 +107,27 @@ function handleUpdateUser({name, about}){
   api.changeData({name, about})
   .then((data) => {
     setCurrentUser(data);
+    closeAllPopups();
   })
   .catch((err) => console.log(err))
-  closeAllPopups();
 }
   
 function handleUpdateAvatar({avatar}) {
   api.changeAvatar({avatar})
   .then((dataAvatar) => {
     setCurrentUser(dataAvatar);
+    closeAllPopups();
   })
   .catch((err) => console.log(err))
-  closeAllPopups();
 }
 
 function handleAddPlaceSubmit({name, link}) {
   api.addCard({name, link})
   .then((newCards) => {
     setCards([newCards, ...cards])
+    closeAllPopups();
   })
   .catch((err) => console.log(err))
-  closeAllPopups();
 }
 
   return (
