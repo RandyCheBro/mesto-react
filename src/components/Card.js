@@ -1,14 +1,30 @@
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card(card) {
+  const currentUser = React.useContext(CurrentUserContext);
+
+  const isOwn = card.owner._id === currentUser._id;
+  const cardTrashButtonClassName = (`element__trash ${!isOwn && "element__trash_hidden"}`);
+
+  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const cardLikeButtonClassName = (`element__like ${isLiked && 'element__like_active'}`);
 
   function handleClick() {
     card.onCardClick(card);
   }
 
+  function handleLikeClick() {
+    card.onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    card.onCardDelete(card)
+  }
+
   return (
     <li className="element">
-      <button className="element__trash element__trash_hidden" type="button"></button>
+      <button onClick={handleDeleteClick} className={cardTrashButtonClassName} type="reset"></button>
       <img className="element__image"
         onClick={handleClick}
         src={card.link}
@@ -18,7 +34,7 @@ function Card(card) {
         <h2 className="element__title">{card.name}
         </h2>
         <div className="element__like-group">
-          <button className="element__like" type="button"></button>
+          <button onClick={handleLikeClick} className={cardLikeButtonClassName} type="button"></button>
           <p className="element__quantity-like">{card.likes.length}</p>
         </div>
       </div>
